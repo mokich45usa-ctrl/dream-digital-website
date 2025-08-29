@@ -13,6 +13,28 @@
   left: -9999px !important;
   top: -9999px !important;
 }
+
+/* Fix Safari border issues for all images */
+img {
+  outline: none !important;
+  border: none !important;
+  -webkit-appearance: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+/* Fix Safari focus outline issues */
+*:focus {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Fix Safari button appearance */
+button {
+  -webkit-appearance: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
 @layer properties {
   @supports (((-webkit-hyphens: none)) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
     *, :before, :after, ::backdrop {
@@ -5021,6 +5043,21 @@ html {
 
 .geometric-logo {
   animation: 18s linear infinite spin, 3.5s ease-in-out infinite geometric-pulse, 8s infinite logo-flicker;
+  /* Fix Safari border issue */
+  outline: none !important;
+  border: none !important;
+  -webkit-appearance: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.geometric-logo img {
+  /* Fix Safari border issue for images */
+  outline: none !important;
+  border: none !important;
+  -webkit-appearance: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
 }
 
 @keyframes logo-spin-hover {

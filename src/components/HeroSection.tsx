@@ -56,8 +56,14 @@ export function HeroSection() {
                 alt="DREAM Logo" 
                 className="w-full h-full object-contain transition-all duration-300 hover:brightness-125"
                 style={{ 
-                  filter: 'brightness(1.2) contrast(1.1)'
+                  filter: 'brightness(1.2) contrast(1.1)',
+                  outline: 'none',
+                  border: 'none',
+                  WebkitAppearance: 'none',
+                  WebkitTapHighlightColor: 'transparent'
                 }}
+                draggable="false"
+                unselectable="on"
               />
             </div>
           </div>
