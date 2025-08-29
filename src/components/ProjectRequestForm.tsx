@@ -5,12 +5,15 @@ import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { ArrowRight } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { verifyRecaptchaToken } from '../utils/recaptcha';
 
 interface ProjectRequestFormProps {
   children: React.ReactNode;
 }
 
 export function ProjectRequestForm({ children }: ProjectRequestFormProps) {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -22,10 +25,26 @@ export function ProjectRequestForm({ children }: ProjectRequestFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!executeRecaptcha) {
+      console.error('reCAPTCHA not loaded');
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
+      // Execute reCAPTCHA
+      const token = await executeRecaptcha('form_submit');
+      const isValid = await verifyRecaptchaToken(token);
+      
+      if (!isValid) {
+        setSubmitStatus('error');
+        setIsSubmitting(false);
+        return;
+      }
+
       // Инициализация EmailJS
       emailjs.init("RD9DdON7C7qrN5ymR"); // Ваш Public Key
 
