@@ -13,8 +13,15 @@ export function SEOTestPanel() {
       metaTags.forEach((tag) => {
         const name = tag.getAttribute('name') || tag.getAttribute('property') || 'unknown';
         const content = tag.getAttribute('content');
+        const charset = tag.getAttribute('charset');
+        
         if (content) {
           data[name] = content;
+        }
+        
+        // Специально для charset
+        if (charset) {
+          data.charset = charset;
         }
       });
 
