@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { verifyRecaptchaToken } from '../utils/recaptcha';
+import { trackFormSubmission, trackButtonClick } from '../utils/analytics';
 
 interface ProjectRequestFormProps {
   children: React.ReactNode;
@@ -97,6 +98,9 @@ Date: ${new Date().toLocaleString('en-US')}`
 
       setSubmitStatus('success');
       setFormData({ name: '', phone: '', email: '', pricingType: '' });
+      
+      // Track successful form submission
+      trackFormSubmission('project_request');
       
       // Закрыть модальное окно через 3 секунды
       setTimeout(() => {

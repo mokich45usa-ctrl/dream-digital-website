@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { trackAdminAccess } from '../utils/analytics';
 
 export function useAdminPanel() {
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
@@ -26,6 +27,7 @@ export function useAdminPanel() {
           if (isCorrect && !isAdminMode) {
             setIsAdminMode(true);
             console.log('🔓 Admin mode activated! Press Ctrl+Alt+D to open panel');
+            trackAdminAccess();
             console.log('🔓 Admin mode activated! Press Ctrl+Alt+A to open analytics');
             return [];
           }
