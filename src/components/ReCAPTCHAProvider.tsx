@@ -6,10 +6,8 @@ interface ReCAPTCHAProviderProps {
 }
 
 export function ReCAPTCHAProvider({ children }: ReCAPTCHAProviderProps) {
-  // Use different keys for development and production
-  const SITE_KEY = process.env.NODE_ENV === 'production' 
-    ? '6LfbbbcrAAAAAKi179-oSlNS-pBnbLfuuxLPwwjN' // Production key (update with your domain)
-    : '6LfbbbcrAAAAAKi179-oSlNS-pBnbLfuuxLPwwjN'; // Development key
+  // Get reCAPTCHA key from environment variables or use default
+  const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfbbbcrAAAAAKi179-oSlNS-pBnbLfuuxLPwwjN';
 
   return (
     <GoogleReCaptchaProvider
