@@ -4,15 +4,13 @@ export interface CookieConsent {
   necessary: boolean;
   analytics: boolean;
   functional: boolean;
-  advertising: boolean;
 }
 
 export function useCookieConsent() {
   const [consent, setConsent] = useState<CookieConsent>({
     necessary: true,
     analytics: false,
-    functional: false,
-    advertising: false
+    functional: false
   });
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -47,20 +45,16 @@ export function useCookieConsent() {
     return hasConsent('functional');
   };
 
-  const canLoadAdvertising = () => {
-    return hasConsent('advertising');
-  };
-
   const canLoadEmailJS = () => {
     return hasConsent('functional'); // EmailJS - функциональный сервис
   };
 
-  const canLoadGoogleAnalytics = () => {
-    return hasConsent('analytics'); // Google Analytics - аналитический сервис
+  const canLoadOwnAnalytics = () => {
+    return hasConsent('analytics'); // Наша собственная аналитика
   };
 
-  const canLoadFacebookPixel = () => {
-    return hasConsent('advertising'); // Facebook Pixel - рекламный сервис
+  const canSaveLeads = () => {
+    return hasConsent('functional'); // Сохранение заявок
   };
 
   return {
@@ -70,9 +64,8 @@ export function useCookieConsent() {
     hasConsent,
     canLoadAnalytics,
     canLoadFunctional,
-    canLoadAdvertising,
     canLoadEmailJS,
-    canLoadGoogleAnalytics,
-    canLoadFacebookPixel
+    canLoadOwnAnalytics,
+    canSaveLeads
   };
 }

@@ -4,7 +4,6 @@ interface CookieConsent {
   necessary: boolean;
   analytics: boolean;
   functional: boolean;
-  advertising: boolean;
 }
 
 export function CookieBanner() {
@@ -13,8 +12,7 @@ export function CookieBanner() {
   const [consent, setConsent] = useState<CookieConsent>({
     necessary: true,
     analytics: false,
-    functional: false,
-    advertising: false
+    functional: false
   });
 
   useEffect(() => {
@@ -36,8 +34,7 @@ export function CookieBanner() {
     const newConsent = {
       necessary: true,
       analytics: true,
-      functional: true,
-      advertising: true
+      functional: true
     };
     setConsent(newConsent);
     localStorage.setItem('cookieConsent', JSON.stringify(newConsent));
@@ -49,8 +46,7 @@ export function CookieBanner() {
     const newConsent = {
       necessary: true,
       analytics: false,
-      functional: false,
-      advertising: false
+      functional: false
     };
     setConsent(newConsent);
     localStorage.setItem('cookieConsent', JSON.stringify(newConsent));
@@ -98,7 +94,7 @@ export function CookieBanner() {
                 🍪 DREAM DIGITAL COOKIES
               </h3>
               <p style={{ margin: '0 0 15px 0', fontSize: '14px', lineHeight: '1.5' }}>
-                Мы используем cookies для анализа посещений, улучшения пользовательского опыта и отправки форм заявок. 
+                Мы используем cookies для сохранения ваших настроек, анализа посещений сайта и обработки заявок. 
                 Необходимые cookies всегда включены для работы сайта.
               </p>
               <div style={{ fontSize: '12px', color: '#888888' }}>
@@ -197,7 +193,7 @@ export function CookieBanner() {
             </button>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '20px' }}>
             {/* Необходимые cookies */}
             <div style={{ border: '2px solid #00FFFF', padding: '15px', borderRadius: '10px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
@@ -209,7 +205,7 @@ export function CookieBanner() {
                 </div>
               </div>
               <p style={{ margin: 0, fontSize: '12px', lineHeight: '1.4', color: '#CCCCCC' }}>
-                Безопасность сайта, основные функции, корзина покупок. Эти cookies необходимы для работы сайта.
+                Настройки согласия на cookies. Эти данные необходимы для работы системы согласия и не могут быть отключены.
               </p>
             </div>
 
@@ -232,7 +228,7 @@ export function CookieBanner() {
                 </label>
               </div>
               <p style={{ margin: 0, fontSize: '12px', lineHeight: '1.4', color: '#CCCCCC' }}>
-                Google Analytics, статистика посещений, поведение пользователей для улучшения сайта.
+                Наша собственная аналитика: статистика посещений, время на сайте, устройства и браузеры для улучшения сайта.
               </p>
             </div>
 
@@ -255,30 +251,7 @@ export function CookieBanner() {
                 </label>
               </div>
               <p style={{ margin: 0, fontSize: '12px', lineHeight: '1.4', color: '#CCCCCC' }}>
-                EmailJS, отправка форм, настройки языка и темы, персонализация опыта.
-              </p>
-            </div>
-
-            {/* Рекламные cookies */}
-            <div style={{ border: '2px solid #00FFFF', padding: '15px', borderRadius: '10px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <h4 style={{ color: '#00FFFF', margin: 0, fontSize: '14px', fontWeight: 'bold' }}>
-                  📢 Рекламные
-                </h4>
-                <label style={{ cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    checked={consent.advertising}
-                    onChange={() => handleToggleCookie('advertising')}
-                    style={{ marginRight: '8px' }}
-                  />
-                  <span style={{ fontSize: '12px', fontWeight: 'bold' }}>
-                    {consent.advertising ? '✅ Включены' : '❌ Отключены'}
-                  </span>
-                </label>
-              </div>
-              <p style={{ margin: 0, fontSize: '12px', lineHeight: '1.4', color: '#CCCCCC' }}>
-                Facebook Pixel, Google Ads, персонализированная реклама и отслеживание конверсий.
+                Сохранение заявок пользователей, отправка форм через EmailJS, обработка обращений клиентов.
               </p>
             </div>
           </div>
