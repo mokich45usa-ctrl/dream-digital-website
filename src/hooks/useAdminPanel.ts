@@ -40,24 +40,10 @@ export function useAdminPanel() {
         setIsAdminPanelOpen(true);
       }
 
-      // Open analytics panel in admin mode
+      // Open analytics panel in admin mode - ONLY Ctrl+Alt+A
       if (isAdminMode && event.ctrlKey && event.altKey && event.code === 'KeyA') {
         event.preventDefault();
-        console.log('🔍 Debug - Opening analytics panel');
-        setIsAnalyticsPanelOpen(true);
-      }
-
-      // Alternative: Open analytics with Ctrl + Shift + A
-      if (isAdminMode && event.ctrlKey && event.shiftKey && event.code === 'KeyA') {
-        event.preventDefault();
-        console.log('🔍 Debug - Opening analytics panel (alternative)');
-        setIsAnalyticsPanelOpen(true);
-      }
-
-      // Super simple: Open analytics with just 'A' key
-      if (isAdminMode && event.code === 'KeyA' && !event.ctrlKey && !event.altKey && !event.shiftKey) {
-        event.preventDefault();
-        console.log('🔍 Debug - Opening analytics panel (super simple)');
+        console.log('🔍 Debug - Opening analytics panel (Ctrl+Alt+A)');
         setIsAnalyticsPanelOpen(true);
       }
 

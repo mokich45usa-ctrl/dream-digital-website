@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { HeroSection } from './components/HeroSection';
 import { USPSection } from './components/USPSection';
 import { PricingSection } from './components/PricingSection';
@@ -13,10 +14,8 @@ import { useAdminPanel } from './hooks/useAdminPanel';
 import { useAnalytics } from './hooks/useAnalytics';
 
 export default function App() {
-  const { isAdminPanelOpen, isAnalyticsPanelOpen, isAdminMode, closeAdminPanel, closeAnalyticsPanel } = useAdminPanel();
+  const { isAdminPanelOpen, isAnalyticsPanelOpen, isAdminMode, closeAdminPanel, closeAnalyticsPanel, openAdminPanel, openAnalyticsPanel } = useAdminPanel();
   const { analytics, trackFormSubmission } = useAnalytics();
-
-  console.log('🔍 App Debug - isAnalyticsPanelOpen:', isAnalyticsPanelOpen, 'analytics:', analytics);
 
   return (
     <div className="size-full">
@@ -30,31 +29,40 @@ export default function App() {
       <FAQSection />
       <FinalCTASection />
       
-                   {/* Скрытая админ панель */}
-             <AdminPanel
-               isOpen={isAdminPanelOpen}
-               onClose={closeAdminPanel}
-             />
+      {/* Скрытая админ панель */}
+      <AdminPanel
+        isOpen={isAdminPanelOpen}
+        onClose={closeAdminPanel}
+      />
 
-             {/* Скрытая панель аналитики */}
-             <AnalyticsPanel
-               isOpen={isAnalyticsPanelOpen}
-               onClose={closeAnalyticsPanel}
-               analytics={analytics}
-             />
-      
-      {/* Индикатор админ режима (только для разработки) */}
+      {/* Скрытая панель аналитики */}
+      <AnalyticsPanel
+        isOpen={isAnalyticsPanelOpen}
+        onClose={closeAnalyticsPanel}
+        analytics={analytics}
+      />
+
+      {/* Временный индикатор админ режима */}
       {isAdminMode && (
         <div 
-          className="fixed top-4 right-4 z-50 px-3 py-1 text-xs font-black tracking-wide border-2"
-          style={{ 
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 9998,
+            padding: '8px 16px',
             backgroundColor: '#000000',
-            borderColor: '#00FFFF',
+            border: '2px solid #00FFFF',
             color: '#00FFFF',
-            fontFamily: 'monospace'
+            fontFamily: 'monospace',
+            fontSize: '12px',
+            fontWeight: 'bold',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            boxShadow: '0 0 10px rgba(0, 255, 255, 0.5)'
           }}
         >
-          ADMIN MODE
+          ADMIN MODE ACTIVE
         </div>
       )}
     </div>

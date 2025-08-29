@@ -104,121 +104,233 @@ export function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
     window.URL.revokeObjectURL(url);
   };
 
-  if (!isOpen) return null;
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div 
-      className="fixed inset-0 z-50 overflow-y-auto bg-black"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.95)',
+        zIndex: 9999,
+        overflow: 'auto'
+      }}
     >
       <div 
-        className="min-h-screen w-full border-4 border-cyan-400 shadow-[0_0_50px_#00FFFF60]"
+        style={{
+          minHeight: '100vh',
+          width: '100%',
+          border: '4px solid #00FFFF',
+          boxShadow: '0 0 50px rgba(0, 255, 255, 0.6)',
+          backgroundColor: '#000000'
+        }}
       >
         {/* Header */}
-        <div className="border-b-4 border-cyan-400 bg-black p-4">
-          <div className="flex items-center justify-between">
+        <div style={{ borderBottom: '4px solid #00FFFF', backgroundColor: '#000000', padding: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             {/* Logo and Title */}
-            <div className="flex items-center gap-4">
-              <div className="border-4 border-cyan-400 p-2 shadow-[0_0_20px_#00FFFF]">
-                <BarChart3 className="h-8 w-8 text-cyan-400" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ border: '4px solid #00FFFF', padding: '8px', boxShadow: '0 0 20px #00FFFF' }}>
+                <BarChart3 style={{ height: '32px', width: '32px', color: '#00FFFF' }} />
               </div>
               <div>
-                <h1 className="text-2xl tracking-wider uppercase text-cyan-400 font-black">
+                <h1 style={{ 
+                  fontSize: '24px', 
+                  letterSpacing: '0.1em', 
+                  textTransform: 'uppercase', 
+                  color: '#00FFFF', 
+                  fontWeight: '900',
+                  margin: 0
+                }}>
                   LEAD MANAGEMENT PANEL
                 </h1>
-                <p className="text-sm text-cyan-400">
+                <p style={{ fontSize: '14px', color: '#00FFFF', margin: 0 }}>
                   Overview of all submitted project requests
                 </p>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex items-center gap-4">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <button 
                 onClick={exportLeads}
-                className="border-4 border-cyan-400 px-6 py-2 bg-black text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-200 shadow-[0_0_15px_#00FFFF] hover:shadow-[0_0_25px_#00FFFF] uppercase tracking-wider font-black"
+                style={{
+                  border: '4px solid #00FFFF',
+                  padding: '8px 24px',
+                  backgroundColor: '#000000',
+                  color: '#00FFFF',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 0 15px #00FFFF',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  fontWeight: '900',
+                  cursor: 'pointer'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = '#00FFFF';
+                  e.currentTarget.style.color = '#000000';
+                  e.currentTarget.style.boxShadow = '0 0 25px #00FFFF';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000000';
+                  e.currentTarget.style.color = '#00FFFF';
+                  e.currentTarget.style.boxShadow = '0 0 15px #00FFFF';
+                }}
               >
-                <Download className="inline h-4 w-4 mr-2" />
+                <Download style={{ display: 'inline', height: '16px', width: '16px', marginRight: '8px' }} />
                 EXPORT
               </button>
               <button 
                 onClick={loadLeads}
-                className="border-4 border-cyan-400 px-6 py-2 bg-black text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-200 shadow-[0_0_15px_#00FFFF] hover:shadow-[0_0_25px_#00FFFF] uppercase tracking-wider font-black"
+                style={{
+                  border: '4px solid #00FFFF',
+                  padding: '8px 24px',
+                  backgroundColor: '#000000',
+                  color: '#00FFFF',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 0 15px #00FFFF',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  fontWeight: '900',
+                  cursor: 'pointer'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = '#00FFFF';
+                  e.currentTarget.style.color = '#000000';
+                  e.currentTarget.style.boxShadow = '0 0 25px #00FFFF';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000000';
+                  e.currentTarget.style.color = '#00FFFF';
+                  e.currentTarget.style.boxShadow = '0 0 15px #00FFFF';
+                }}
               >
-                <RefreshCw className="inline h-4 w-4 mr-2" />
+                <RefreshCw style={{ display: 'inline', height: '16px', width: '16px', marginRight: '8px' }} />
                 REFRESH
               </button>
               <button 
                 onClick={onClose}
-                className="border-4 border-red-500 px-4 py-2 bg-black text-red-500 hover:bg-red-500 hover:text-black transition-all duration-200 shadow-[0_0_15px_#FF0033] hover:shadow-[0_0_25px_#FF0033]"
+                style={{
+                  border: '4px solid #FF0033',
+                  padding: '16px',
+                  backgroundColor: '#000000',
+                  color: '#FF0033',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 0 15px #FF0033',
+                  cursor: 'pointer'
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = '#FF0033';
+                  e.currentTarget.style.color = '#000000';
+                  e.currentTarget.style.boxShadow = '0 0 25px #FF0033';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000000';
+                  e.currentTarget.style.color = '#FF0033';
+                  e.currentTarget.style.boxShadow = '0 0 15px #FF0033';
+                }}
               >
-                <X className="h-4 w-4" />
+                <X style={{ height: '16px', width: '16px' }} />
               </button>
             </div>
           </div>
         </div>
 
         {/* Statistics */}
-        <div className="border-b-4 border-gray-800 bg-black p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="border-4 border-cyan-400 bg-black p-6 shadow-[0_0_20px_#00FFFF40] hover:shadow-[0_0_30px_#00FFFF60] transition-all duration-300">
-              <div className="flex items-start justify-between mb-4">
-                <div className="border-2 border-cyan-400 p-2 shadow-[0_0_10px_#00FFFF]">
-                  <Users className="h-6 w-6 text-cyan-400" />
+        <div style={{ borderBottom: '4px solid #333333', backgroundColor: '#000000', padding: '24px' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '24px' 
+          }}>
+            <div style={{
+              border: '4px solid #00FFFF',
+              backgroundColor: '#000000',
+              padding: '24px',
+              boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)',
+              transition: 'all 0.3s'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ border: '2px solid #00FFFF', padding: '8px', boxShadow: '0 0 10px #00FFFF' }}>
+                  <Users style={{ height: '24px', width: '24px', color: '#00FFFF' }} />
                 </div>
               </div>
               <div>
-                <div className="text-3xl font-black text-cyan-400 mb-2 tracking-wider">
+                <div style={{ fontSize: '48px', fontWeight: '900', color: '#00FFFF', marginBottom: '8px', letterSpacing: '0.1em' }}>
                   {stats.total}
                 </div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider font-black">
+                <div style={{ fontSize: '14px', color: '#999999', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '900' }}>
                   TOTAL LEADS
                 </div>
               </div>
             </div>
 
-            <div className="border-4 border-cyan-400 bg-black p-6 shadow-[0_0_20px_#00FFFF40] hover:shadow-[0_0_30px_#00FFFF60] transition-all duration-300">
-              <div className="flex items-start justify-between mb-4">
-                <div className="border-2 border-cyan-400 p-2 shadow-[0_0_10px_#00FFFF]">
-                  <Clock className="h-6 w-6 text-cyan-400" />
+            <div style={{
+              border: '4px solid #00FFFF',
+              backgroundColor: '#000000',
+              padding: '24px',
+              boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)',
+              transition: 'all 0.3s'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ border: '2px solid #00FFFF', padding: '8px', boxShadow: '0 0 10px #00FFFF' }}>
+                  <Clock style={{ height: '24px', width: '24px', color: '#00FFFF' }} />
                 </div>
               </div>
               <div>
-                <div className="text-3xl font-black text-cyan-400 mb-2 tracking-wider">
+                <div style={{ fontSize: '48px', fontWeight: '900', color: '#00FFFF', marginBottom: '8px', letterSpacing: '0.1em' }}>
                   {stats.thisMonth}
                 </div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider font-black">
+                <div style={{ fontSize: '14px', color: '#999999', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '900' }}>
                   THIS MONTH
                 </div>
               </div>
             </div>
 
-            <div className="border-4 border-cyan-400 bg-black p-6 shadow-[0_0_20px_#00FFFF40] hover:shadow-[0_0_30px_#00FFFF60] transition-all duration-300">
-              <div className="flex items-start justify-between mb-4">
-                <div className="border-2 border-cyan-400 p-2 shadow-[0_0_10px_#00FFFF]">
-                  <Clock className="h-6 w-6 text-cyan-400" />
+            <div style={{
+              border: '4px solid #00FFFF',
+              backgroundColor: '#000000',
+              padding: '24px',
+              boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)',
+              transition: 'all 0.3s'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ border: '2px solid #00FFFF', padding: '8px', boxShadow: '0 0 10px #00FFFF' }}>
+                  <Clock style={{ height: '24px', width: '24px', color: '#00FFFF' }} />
                 </div>
               </div>
               <div>
-                <div className="text-3xl font-black text-cyan-400 mb-2 tracking-wider">
+                <div style={{ fontSize: '48px', fontWeight: '900', color: '#00FFFF', marginBottom: '8px', letterSpacing: '0.1em' }}>
                   {stats.thisWeek}
                 </div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider font-black">
+                <div style={{ fontSize: '14px', color: '#999999', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '900' }}>
                   THIS WEEK
                 </div>
               </div>
             </div>
 
-            <div className="border-4 border-cyan-400 bg-black p-6 shadow-[0_0_20px_#00FFFF40] hover:shadow-[0_0_30px_#00FFFF60] transition-all duration-300">
-              <div className="flex items-start justify-between mb-4">
-                <div className="border-2 border-cyan-400 p-2 shadow-[0_0_10px_#00FFFF]">
-                  <DollarSign className="h-6 w-6 text-cyan-400" />
+            <div style={{
+              border: '4px solid #00FFFF',
+              backgroundColor: '#000000',
+              padding: '24px',
+              boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)',
+              transition: 'all 0.3s'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ border: '2px solid #00FFFF', padding: '8px', boxShadow: '0 0 10px #00FFFF' }}>
+                  <DollarSign style={{ height: '24px', width: '24px', color: '#00FFFF' }} />
                 </div>
               </div>
               <div>
-                <div className="text-3xl font-black text-cyan-400 mb-2 tracking-wider">
+                <div style={{ fontSize: '48px', fontWeight: '900', color: '#00FFFF', marginBottom: '8px', letterSpacing: '0.1em' }}>
                   {stats.conversion.toFixed(1)}%
                 </div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider font-black">
+                <div style={{ fontSize: '14px', color: '#999999', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: '900' }}>
                   CONVERSION
                 </div>
               </div>
@@ -227,54 +339,63 @@ export function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
         </div>
 
         {/* Leads Table */}
-        <div className="p-6">
-          <div className="border-4 border-cyan-400 bg-black shadow-[0_0_20px_#00FFFF40]">
-            <div className="border-b-4 border-gray-800 p-4">
-              <h2 className="text-xl font-black text-cyan-400 uppercase tracking-wider">
+        <div style={{ padding: '24px' }}>
+          <div style={{ border: '4px solid #00FFFF', backgroundColor: '#000000', boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)' }}>
+            <div style={{ borderBottom: '4px solid #333333', padding: '16px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: '900', color: '#00FFFF', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>
                 LEADS TABLE
               </h2>
             </div>
             
-            <div className="max-h-[calc(100vh-400px)] overflow-y-auto">
-              <table className="w-full">
-                <thead className="border-b-4 border-gray-800">
+            <div style={{ maxHeight: 'calc(100vh - 400px)', overflow: 'auto' }}>
+              <table style={{ width: '100%' }}>
+                <thead style={{ borderBottom: '4px solid #333333' }}>
                   <tr>
-                    <th className="p-4 text-left text-cyan-400 font-black tracking-wider uppercase">ID</th>
-                    <th className="p-4 text-left text-cyan-400 font-black tracking-wider uppercase">Name/Company</th>
-                    <th className="p-4 text-left text-cyan-400 font-black tracking-wider uppercase">Contacts</th>
-                    <th className="p-4 text-left text-cyan-400 font-black tracking-wider uppercase">Pricing</th>
-                    <th className="p-4 text-left text-cyan-400 font-black tracking-wider uppercase">Date</th>
-                    <th className="p-4 text-left text-cyan-400 font-black tracking-wider uppercase">Status</th>
+                    <th style={{ padding: '16px', textAlign: 'left', color: '#00FFFF', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>ID</th>
+                    <th style={{ padding: '16px', textAlign: 'left', color: '#00FFFF', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Name/Company</th>
+                    <th style={{ padding: '16px', textAlign: 'left', color: '#00FFFF', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Contacts</th>
+                    <th style={{ padding: '16px', textAlign: 'left', color: '#00FFFF', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Pricing</th>
+                    <th style={{ padding: '16px', textAlign: 'left', color: '#00FFFF', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Date</th>
+                    <th style={{ padding: '16px', textAlign: 'left', color: '#00FFFF', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {leads.map((lead) => (
-                    <tr key={lead.id} className="border-b-2 border-gray-800 hover:bg-gray-900 transition-colors">
-                      <td className="p-4 text-cyan-400 font-black tracking-wider">
+                    <tr key={lead.id} style={{ borderBottom: '2px solid #333333' }}>
+                      <td style={{ padding: '16px', color: '#00FFFF', fontWeight: '900', letterSpacing: '0.1em' }}>
                         {lead.id.slice(-6)}
                       </td>
-                      <td className="p-4 text-cyan-400 font-black tracking-wider">
+                      <td style={{ padding: '16px', color: '#00FFFF', fontWeight: '900', letterSpacing: '0.1em' }}>
                         {lead.name}
                       </td>
-                      <td className="p-4 text-cyan-400">
-                        <div className="space-y-1">
-                          <div className="font-black tracking-wider">{lead.phone}</div>
+                      <td style={{ padding: '16px', color: '#00FFFF' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                          <div style={{ fontWeight: '900', letterSpacing: '0.1em' }}>{lead.phone}</div>
                           {lead.email && (
-                            <div className="text-sm text-gray-400">{lead.email}</div>
+                            <div style={{ fontSize: '14px', color: '#999999' }}>{lead.email}</div>
                           )}
                         </div>
                       </td>
-                      <td className="p-4 text-cyan-400 font-black tracking-wider">
+                      <td style={{ padding: '16px', color: '#00FFFF', fontWeight: '900', letterSpacing: '0.1em' }}>
                         {lead.pricingType || 'Not selected'}
                       </td>
-                      <td className="p-4 text-cyan-400 font-black tracking-wider">
+                      <td style={{ padding: '16px', color: '#00FFFF', fontWeight: '900', letterSpacing: '0.1em' }}>
                         {new Date(lead.date).toLocaleDateString('en-US')}
                       </td>
-                      <td className="p-4">
+                      <td style={{ padding: '16px' }}>
                         <select
                           value={lead.status}
                           onChange={(e) => updateLeadStatus(lead.id, e.target.value as Lead['status'])}
-                          className="bg-black border-2 border-cyan-400 text-cyan-400 px-3 py-1 font-black tracking-wider uppercase focus:outline-none focus:shadow-[0_0_10px_#00FFFF]"
+                          style={{
+                            backgroundColor: '#000000',
+                            border: '2px solid #00FFFF',
+                            color: '#00FFFF',
+                            padding: '4px 12px',
+                            fontWeight: '900',
+                            letterSpacing: '0.1em',
+                            textTransform: 'uppercase',
+                            outline: 'none'
+                          }}
                         >
                           <option value="new">New</option>
                           <option value="contacted">Contacted</option>
@@ -288,11 +409,11 @@ export function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
               </table>
               
               {leads.length === 0 && (
-                <div className="p-8 text-center">
-                  <div className="text-cyan-400 font-black tracking-wider uppercase">
+                <div style={{ padding: '32px', textAlign: 'center' }}>
+                  <div style={{ color: '#00FFFF', fontWeight: '900', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
                     No leads found
                   </div>
-                  <div className="text-gray-400 text-sm mt-2">
+                  <div style={{ color: '#999999', fontSize: '14px', marginTop: '8px' }}>
                     Submit a form to see leads here
                   </div>
                 </div>
@@ -303,8 +424,14 @@ export function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
 
         {/* Corner accent */}
         <div 
-          className="absolute bottom-0 right-0 w-8 h-8"
-          style={{ backgroundColor: '#FF0033' }}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#FF0033'
+          }}
         ></div>
       </div>
     </div>

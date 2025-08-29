@@ -1,151 +1,164 @@
 import { useState, useEffect } from 'react';
 
 export interface AnalyticsData {
-  // Page views and sessions
   totalPageViews: number;
   uniqueVisitors: number;
   sessions: number;
   currentSessionStart: number;
-  
-  // Form submissions
   totalSubmissions: number;
   submissionsThisMonth: number;
   submissionsThisWeek: number;
-  
-  // User behavior
   averageTimeOnSite: number;
   bounceRate: number;
   pagesPerSession: number;
-  
-  // Traffic sources (basic)
   directTraffic: number;
   searchTraffic: number;
   socialTraffic: number;
-  
-  // Device and browser info
-  deviceTypes: { mobile: number; desktop: number; tablet: number };
-  browsers: Record<string, number>;
-  
-  // Conversion tracking
+  deviceTypes: {
+    mobile: number;
+    desktop: number;
+    tablet: number;
+  };
+  browsers: {
+    [key: string]: number;
+  };
   conversionRate: number;
   lastSubmissionDate: string | null;
-  
-  // Performance metrics
   pageLoadTimes: number[];
   averageLoadTime: number;
 }
 
-const ANALYTICS_KEY = 'dream_digital_analytics';
-const SESSION_KEY = 'dream_digital_session';
+const initialAnalytics: AnalyticsData = {
+  totalPageViews: 0,
+  uniqueVisitors: 0,
+  sessions: 0,
+  currentSessionStart: Date.now(),
+  totalSubmissions: 0,
+  submissionsThisMonth: 0,
+  submissionsThisWeek: 0,
+  averageTimeOnSite: 0,
+  bounceRate: 0,
+  pagesPerSession: 0,
+  directTraffic: 0,
+  searchTraffic: 0,
+  socialTraffic: 0,
+  deviceTypes: {
+    mobile: 0,
+    desktop: 0,
+    tablet: 0
+  },
+  browsers: {},
+  conversionRate: 0,
+  lastSubmissionDate: null,
+  pageLoadTimes: [],
+  averageLoadTime: 0
+};
 
 export function useAnalytics() {
-  const [analytics, setAnalytics] = useState<AnalyticsData>({
-    totalPageViews: 0,
-    uniqueVisitors: 0,
-    sessions: 0,
-    currentSessionStart: Date.now(),
-    totalSubmissions: 0,
-    submissionsThisMonth: 0,
-    submissionsThisWeek: 0,
-    averageTimeOnSite: 0,
-    bounceRate: 0,
-    pagesPerSession: 0,
-    directTraffic: 0,
-    searchTraffic: 0,
-    socialTraffic: 0,
-    deviceTypes: { mobile: 0, desktop: 0, tablet: 0 },
-    browsers: {},
-    conversionRate: 0,
-    lastSubmissionDate: null,
-    pageLoadTimes: [],
-    averageLoadTime: 0
-  });
+  const [analytics, setAnalytics] = useState<AnalyticsData>(initialAnalytics);
 
   // Load analytics from localStorage
   const loadAnalytics = () => {
-    try {
-      const saved = localStorage.getItem(ANALYTICS_KEY);
-      if (saved) {
+    const saved = localStorage.getItem('dream_digital_analytics');
+    if (saved) {
+      try {
         const parsed = JSON.parse(saved);
         setAnalytics(parsed);
+      } catch (error) {
+        setAnalytics(initialAnalytics);
       }
-    } catch (error) {
-      console.error('Error loading analytics:', error);
+    } else {
+      // Initialize with demo data if no analytics exist
+      const demoData: AnalyticsData = {
+        ...initialAnalytics,
+        totalPageViews: 1250,
+        uniqueVisitors: 890,
+        sessions: 156,
+        totalSubmissions: 23,
+        submissionsThisMonth: 8,
+        submissionsThisWeek: 3,
+        averageTimeOnSite: 125000, // 2:05 minutes
+        bounceRate: 35.2,
+        pagesPerSession: 2.8,
+        directTraffic: 650,
+        searchTraffic: 420,
+        socialTraffic: 180,
+        deviceTypes: {
+          mobile: 520,
+          desktop: 680,
+          tablet: 50
+        },
+        browsers: {
+          'Chrome': 720,
+          'Safari': 280,
+          'Firefox': 150,
+          'Edge': 100
+        },
+        conversionRate: 1.84,
+        lastSubmissionDate: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+        pageLoadTimes: [1200, 980, 1450, 1100, 1350, 890, 1600, 1250, 1400, 1150],
+        averageLoadTime: 1237
+      };
+      setAnalytics(demoData);
+      localStorage.setItem('dream_digital_analytics', JSON.stringify(demoData));
     }
   };
 
   // Save analytics to localStorage
   const saveAnalytics = (data: AnalyticsData) => {
-    try {
-      localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
-    } catch (error) {
-      console.error('Error saving analytics:', error);
-    }
+    localStorage.setItem('dream_digital_analytics', JSON.stringify(data));
   };
 
   // Track page view
   const trackPageView = () => {
-    console.log('🔍 Analytics Debug - Tracking page view');
     setAnalytics(prev => {
-      const newData = {
+      const updated = {
         ...prev,
-        totalPageViews: prev.totalPageViews + 1,
-        pagesPerSession: prev.pagesPerSession + 1
+        totalPageViews: prev.totalPageViews + 1
       };
-      
-      // Check if this is a new session
-      const sessionData = localStorage.getItem(SESSION_KEY);
-      if (!sessionData) {
-        newData.sessions = prev.sessions + 1;
-        newData.currentSessionStart = Date.now();
-        newData.pagesPerSession = 1;
-        localStorage.setItem(SESSION_KEY, JSON.stringify({
-          startTime: Date.now(),
-          pages: 1
-        }));
-        console.log('🔍 Analytics Debug - New session started');
-      } else {
-        const session = JSON.parse(sessionData);
-        session.pages += 1;
-        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-        console.log('🔍 Analytics Debug - Existing session, pages:', session.pages);
-      }
-      
-      saveAnalytics(newData);
-      console.log('🔍 Analytics Debug - Updated analytics:', newData);
-      return newData;
+      saveAnalytics(updated);
+      return updated;
     });
   };
 
   // Track form submission
   const trackFormSubmission = () => {
+    const now = new Date();
+    const thisMonth = now.getMonth();
+    const thisYear = now.getFullYear();
+    const thisWeek = getWeekNumber(now);
+
     setAnalytics(prev => {
-      const now = new Date();
-      const thisMonth = now.getMonth() === new Date(prev.lastSubmissionDate || 0).getMonth();
-      const thisWeek = now.getTime() - new Date(prev.lastSubmissionDate || 0).getTime() < 7 * 24 * 60 * 60 * 1000;
-      
-      const newData = {
+      const isThisMonth = prev.lastSubmissionDate ? 
+        new Date(prev.lastSubmissionDate).getMonth() === thisMonth &&
+        new Date(prev.lastSubmissionDate).getFullYear() === thisYear : false;
+
+      const isThisWeek = prev.lastSubmissionDate ? 
+        getWeekNumber(new Date(prev.lastSubmissionDate)) === thisWeek &&
+        new Date(prev.lastSubmissionDate).getFullYear() === thisYear : false;
+
+      const updated = {
         ...prev,
         totalSubmissions: prev.totalSubmissions + 1,
-        submissionsThisMonth: thisMonth ? prev.submissionsThisMonth + 1 : 1,
-        submissionsThisWeek: thisWeek ? prev.submissionsThisWeek + 1 : 1,
+        submissionsThisMonth: isThisMonth ? prev.submissionsThisMonth + 1 : 1,
+        submissionsThisWeek: isThisWeek ? prev.submissionsThisWeek + 1 : 1,
         lastSubmissionDate: now.toISOString(),
-        conversionRate: prev.totalPageViews > 0 ? ((prev.totalSubmissions + 1) / prev.totalPageViews) * 100 : 0
+        conversionRate: ((prev.totalSubmissions + 1) / prev.totalPageViews) * 100
       };
-      
-      saveAnalytics(newData);
-      return newData;
+      saveAnalytics(updated);
+      return updated;
     });
   };
 
   // Detect device type
   const detectDeviceType = () => {
     const userAgent = navigator.userAgent;
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
-    const isTablet = /iPad|Android(?=.*\bMobile\b)(?=.*\bSafari\b)/i.test(userAgent);
-    
-    if (isTablet) return 'tablet';
-    if (isMobile) return 'mobile';
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+      if (/iPad/i.test(userAgent)) {
+        return 'tablet';
+      }
+      return 'mobile';
+    }
     return 'desktop';
   };
 
@@ -153,8 +166,8 @@ export function useAnalytics() {
   const detectBrowser = () => {
     const userAgent = navigator.userAgent;
     if (userAgent.includes('Chrome')) return 'Chrome';
-    if (userAgent.includes('Firefox')) return 'Firefox';
     if (userAgent.includes('Safari')) return 'Safari';
+    if (userAgent.includes('Firefox')) return 'Firefox';
     if (userAgent.includes('Edge')) return 'Edge';
     return 'Other';
   };
@@ -163,9 +176,13 @@ export function useAnalytics() {
   const detectTrafficSource = () => {
     const referrer = document.referrer;
     if (!referrer) return 'direct';
-    if (referrer.includes('google') || referrer.includes('bing') || referrer.includes('yahoo')) return 'search';
-    if (referrer.includes('facebook') || referrer.includes('instagram') || referrer.includes('twitter')) return 'social';
-    return 'other';
+    if (referrer.includes('google') || referrer.includes('bing') || referrer.includes('yahoo')) {
+      return 'search';
+    }
+    if (referrer.includes('facebook') || referrer.includes('twitter') || referrer.includes('instagram')) {
+      return 'social';
+    }
+    return 'direct';
   };
 
   // Track performance
@@ -176,143 +193,93 @@ export function useAnalytics() {
         const loadTime = navigation.loadEventEnd - navigation.loadEventStart;
         setAnalytics(prev => {
           const newLoadTimes = [...prev.pageLoadTimes, loadTime].slice(-10); // Keep last 10
-          const newData = {
+          const avgLoadTime = newLoadTimes.reduce((a, b) => a + b, 0) / newLoadTimes.length;
+          
+          const updated = {
             ...prev,
             pageLoadTimes: newLoadTimes,
-            averageLoadTime: newLoadTimes.reduce((a, b) => a + b, 0) / newLoadTimes.length
+            averageLoadTime: avgLoadTime
           };
-          saveAnalytics(newData);
-          return newData;
+          saveAnalytics(updated);
+          return updated;
         });
       }
     }
   };
 
+  // Calculate week number
+  const getWeekNumber = (date: Date) => {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  };
+
   // Initialize analytics
   useEffect(() => {
     loadAnalytics();
-    
-    // Track initial page view
     trackPageView();
-    
-    // Track device and browser info
+    trackPerformance();
+
+    // Track device and browser
     const deviceType = detectDeviceType();
     const browser = detectBrowser();
     const trafficSource = detectTrafficSource();
-    
+
     setAnalytics(prev => {
-      const newData = {
+      const updated = {
         ...prev,
         deviceTypes: {
           ...prev.deviceTypes,
-          [deviceType]: prev.deviceTypes[deviceType as keyof typeof prev.deviceTypes] + 1
+          [deviceType]: prev.deviceTypes[deviceType] + 1
         },
         browsers: {
           ...prev.browsers,
           [browser]: (prev.browsers[browser] || 0) + 1
-        }
+        },
+        [trafficSource === 'direct' ? 'directTraffic' : 
+         trafficSource === 'search' ? 'searchTraffic' : 'socialTraffic']: 
+        prev[trafficSource === 'direct' ? 'directTraffic' : 
+             trafficSource === 'search' ? 'searchTraffic' : 'socialTraffic'] + 1
       };
-      
-      // Track traffic source
-      switch (trafficSource) {
-        case 'direct':
-          newData.directTraffic += 1;
-          break;
-        case 'search':
-          newData.searchTraffic += 1;
-          break;
-        case 'social':
-          newData.socialTraffic += 1;
-          break;
-      }
-      
-      saveAnalytics(newData);
-      return newData;
+      saveAnalytics(updated);
+      return updated;
     });
-    
-    // Track performance
-    trackPerformance();
-    
-    // Track time on site
-    const startTime = Date.now();
-    const handleBeforeUnload = () => {
-      const timeOnSite = Date.now() - startTime;
-      setAnalytics(prev => {
-        const newData = {
-          ...prev,
-          averageTimeOnSite: (prev.averageTimeOnSite + timeOnSite) / 2
-        };
-        saveAnalytics(newData);
-        return newData;
-      });
-    };
-    
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, []);
 
-  // Force update analytics when component mounts
+  // Track session
   useEffect(() => {
-    const saved = localStorage.getItem(ANALYTICS_KEY);
-    console.log('🔍 Analytics Debug - Saved data:', saved);
-    
-    if (!saved) {
-      console.log('🔍 Analytics Debug - No saved data, initializing demo data');
-      // Initialize with some demo data if no analytics exist
-      const demoData: AnalyticsData = {
-        totalPageViews: 1,
-        uniqueVisitors: 1,
-        sessions: 1,
-        currentSessionStart: Date.now(),
-        totalSubmissions: 0,
-        submissionsThisMonth: 0,
-        submissionsThisWeek: 0,
-        averageTimeOnSite: 0,
-        bounceRate: 0,
-        pagesPerSession: 1,
-        directTraffic: 1,
-        searchTraffic: 0,
-        socialTraffic: 0,
-        deviceTypes: { mobile: 0, desktop: 1, tablet: 0 },
-        browsers: { Chrome: 1 },
-        conversionRate: 0,
-        lastSubmissionDate: null,
-        pageLoadTimes: [100],
-        averageLoadTime: 100
+    const sessionStart = Date.now();
+    setAnalytics(prev => {
+      const updated = {
+        ...prev,
+        sessions: prev.sessions + 1,
+        currentSessionStart: sessionStart
       };
-      localStorage.setItem(ANALYTICS_KEY, JSON.stringify(demoData));
-      setAnalytics(demoData);
-      console.log('🔍 Analytics Debug - Demo data initialized:', demoData);
-    } else {
-      console.log('🔍 Analytics Debug - Loaded existing data');
-    }
+      saveAnalytics(updated);
+      return updated;
+    });
   }, []);
 
-  // Calculate bounce rate (single page sessions)
+  // Calculate bounce rate and pages per session
   useEffect(() => {
-    const sessionData = localStorage.getItem(SESSION_KEY);
-    if (sessionData) {
-      const session = JSON.parse(sessionData);
-      if (session.pages === 1) {
-        setAnalytics(prev => {
-          const newData = {
-            ...prev,
-            bounceRate: ((prev.sessions - 1) / prev.sessions) * 100
-          };
-          saveAnalytics(newData);
-          return newData;
-        });
-      }
-    }
-  }, [analytics.sessions]);
+    const sessionDuration = Date.now() - analytics.currentSessionStart;
+    const isBounce = analytics.totalPageViews === 1 && sessionDuration < 30000; // Less than 30 seconds
+
+    setAnalytics(prev => {
+      const updated = {
+        ...prev,
+        bounceRate: isBounce ? ((prev.bounceRate * (prev.sessions - 1) + 100) / prev.sessions) : 
+                               ((prev.bounceRate * (prev.sessions - 1)) / prev.sessions),
+        averageTimeOnSite: ((prev.averageTimeOnSite * (prev.sessions - 1)) + sessionDuration) / prev.sessions,
+        pagesPerSession: prev.totalPageViews / prev.sessions
+      };
+      saveAnalytics(updated);
+      return updated;
+    });
+  }, [analytics.totalPageViews]);
 
   return {
     analytics,
-    trackPageView,
-    trackFormSubmission,
-    trackPerformance
+    trackFormSubmission
   };
 }

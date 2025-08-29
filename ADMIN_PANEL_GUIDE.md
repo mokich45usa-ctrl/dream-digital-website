@@ -15,17 +15,24 @@
 - ✅ **"ADMIN MODE"** indicator will appear in the top right corner
 - ✅ Message will appear in browser console (F12): `🔓 Admin mode activated!`
 
-## 🚀 **How to open admin panel:**
+## 🚀 **How to open panels:**
 
 ### **In admin mode press:**
 ```
-Ctrl + Alt + D  (Admin Panel)
-Ctrl + Alt + A  (Analytics Panel)
+D               (Admin Panel - Lead Management)
+A               (Analytics Panel - Website Analytics)
+Ctrl + D        (Alternative for Admin Panel)
+Ctrl + A        (Alternative for Analytics Panel)
+```
+
+### **To exit admin mode:**
+```
+X               (Exit admin mode)
 ```
 
 ## 📊 **What the panels show:**
 
-### **Admin Panel (Ctrl + Alt + D):**
+### **Admin Panel (D or Ctrl+D):**
 
 ### **Fullscreen mode:**
 - ✅ **Fullscreen page** instead of modal window
@@ -39,101 +46,58 @@ Ctrl + Alt + A  (Analytics Panel)
 - ⏰ **This Week** - leads from current week
 - 💰 **Conversion** - percentage of converted leads
 
-### **Analytics Panel (Ctrl + Alt + A):**
+### **Lead Statuses:**
+- ✅ **New** - newly submitted leads
+- ✅ **Contacted** - leads that have been contacted
+- ✅ **Converted** - leads that became clients
+- ✅ **Lost** - leads that were not converted
+
+### **Leads Table:**
+- ✅ **ID** - unique identifier
+- ✅ **Name/Company** - client name
+- ✅ **Contacts** - phone, email
+- ✅ **Pricing** - selected pricing type
+- ✅ **Date** - submission date
+- ✅ **Status** - current lead status (editable)
+- ✅ **Export to CSV** - download all leads
+
+### **Analytics Panel (A or Ctrl+A):**
 - 📊 **Overview** - key metrics and device/browser info
 - 🌐 **Traffic** - traffic sources and user behavior
 - ⚡ **Performance** - page load times and performance metrics
 - 📈 **Conversions** - detailed conversion analytics
 
-### **Lead Statuses:**
-- 🔵 **New** - just received
-- 🟠 **Contacted** - contacted leads
-- 🟢 **Converted** - turned into clients
-- 🔴 **Lost** - missed leads
-
-### **Leads Table:**
-- 📅 **Date** - when lead was received
-- 👤 **Name/Company** - client data
-- 📱 **Contacts** - phone and email
-- 💰 **Pricing** - selected package
-- 🏷️ **Status** - can be changed
-
-## 🛠️ **Admin panel functions:**
-
-### **Control buttons:**
-- 🔄 **Refresh** - reload data
-- 📥 **Export** - download CSV file with leads
-- ❌ **Close** - close panel
-
-### **Status management:**
-- Select status in dropdown
-- Changes are saved automatically
-
 ## 🔒 **How to exit admin mode:**
 
 ### **Press:**
 ```
-Ctrl + Alt + X
+X
 ```
 
-## 📋 **Data export:**
+## 🎨 **New Cyberpunk Design Features:**
+- 🌟 **Neon effects** with glowing borders and shadows
+- ⚡ **Hover animations** on all interactive elements
+- 🎪 **Smooth transitions** between states
+- 📱 **Responsive design** for all devices
+- 🔤 **Modern typography** with tracking and uppercase
+- 🎯 **System status indicators** with animated pulses
 
-1. Open admin panel
-2. Press **📥 Export** button
-3. File will download in CSV format
-4. Filename: `dream_digital_leads_YYYY-MM-DD.csv`
+## 🚨 **Troubleshooting:**
 
-## 🔧 **Technical details:**
+### **If panels don't open:**
+1. **Check console (F12)** for debug messages
+2. **Make sure admin mode is active** (indicator visible)
+3. **Try alternative keys** (Ctrl+D, Ctrl+A)
+4. **Refresh page** and try again
 
-### **Where data is stored:**
-- All leads are saved in **browser localStorage**
-- Key: `dream_digital_leads`
-- Format: JSON array
+### **If you see black screen:**
+1. **Check console for errors**
+2. **Try pressing X to exit** and restart
+3. **Refresh page** and activate admin mode again
 
-### **Data structure:**
-```json
-{
-  "id": "1234567890",
-  "name": "Client Name",
-  "phone": "+1 (555) 123-4567",
-  "email": "client@email.com",
-  "pricingType": "Standard",
-  "date": "2024-01-15T10:30:00.000Z",
-  "status": "new"
-}
-```
-
-## ⚠️ **Important notes:**
-
-### **Security:**
-- Admin panel is only visible to you
-- Key combination is complex for accidental pressing
-- Data is stored locally in browser
-
-### **Limitations:**
-- Data is only saved in current browser
-- Data will be lost if localStorage is cleared
-- In production, database connection is needed
-
-## 🎯 **Recommendations:**
-
-1. **Regularly export data** to CSV
-2. **Update lead statuses**
-3. **Monitor conversion** in real time
-4. **Use statistics** for optimization
-
-## 🔍 **Troubleshooting:**
-
-### **If admin panel doesn't open:**
-1. Check browser console (F12)
-2. Make sure admin mode is activated
-3. Try key combination again
-
-### **If data doesn't load:**
-1. Check localStorage in DevTools
-2. Make sure there are saved leads
-3. Try sending a test request
-
----
-
-**🎉 Admin panel is ready to use!**
+### **Debug messages to look for:**
+- `🔓 Admin mode activated!`
+- `🔍 Opening admin panel`
+- `🔍 Opening analytics panel`
+- `🔍 App Debug - isAdminPanelOpen: true`
+- `🔍 AnalyticsPanel Debug - isOpen: true`
