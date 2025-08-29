@@ -7,7 +7,7 @@ interface ReCAPTCHAProviderProps {
 
 export function ReCAPTCHAProvider({ children }: ReCAPTCHAProviderProps) {
   // Get reCAPTCHA key from environment variables or use default
-  const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LfbbbcrAAAAAKi179-oSlNS-pBnbLfuuxLPwwjN';
+  const SITE_KEY = (import.meta as any).env?.VITE_RECAPTCHA_SITE_KEY || '6LfbbbcrAAAAAKi179-oSlNS-pBnbLfuuxLPwwjN';
 
   return (
     <GoogleReCaptchaProvider

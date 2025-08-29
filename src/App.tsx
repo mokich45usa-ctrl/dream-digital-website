@@ -12,6 +12,7 @@ import { AdminPanel } from './components/AdminPanel';
 import { AnalyticsPanel } from './components/AnalyticsPanel';
 import { CookieBanner } from './components/CookieBanner';
 import { ReCAPTCHAProvider } from './components/ReCAPTCHAProvider';
+import { ReCAPTCHABadgeHider } from './components/ReCAPTCHABadgeHider';
 import { GoogleAnalytics } from './components/GoogleAnalytics';
 import { useAdminPanel } from './hooks/useAdminPanel';
 import { useAnalytics } from './hooks/useAnalytics';
@@ -22,6 +23,7 @@ export default function App() {
 
   return (
     <ReCAPTCHAProvider>
+      <ReCAPTCHABadgeHider />
       <GoogleAnalytics measurementId={import.meta.env.VITE_GA_MEASUREMENT_ID || ''} />
       <div className="size-full">
         <HeroSection />
