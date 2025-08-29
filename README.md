@@ -11,6 +11,56 @@ npm run dev
 
 The website will be available at `http://localhost:3000/` (or the next available port).
 
+## 🌐 Deployment to Netlify
+
+### Automatic Deployment (Recommended)
+
+1. **Push to GitHub:**
+   ```bash
+   git push origin master
+   ```
+
+2. **Connect to Netlify:**
+   - Go to [Netlify](https://netlify.com)
+   - Click "New site from Git"
+   - Connect your GitHub repository
+   - Set build settings:
+     - Build command: `npm run build`
+     - Publish directory: `build`
+   - Click "Deploy site"
+
+3. **Configure Domain:**
+   - In Netlify dashboard, go to "Domain settings"
+   - Add your custom domain (e.g., `dreamdigital.team`)
+   - Update DNS records as instructed
+
+### Manual Deployment
+
+1. **Build the project:**
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy to Netlify:**
+   - Drag and drop the `build` folder to Netlify
+   - Or use Netlify CLI: `netlify deploy --prod --dir=build`
+
+### Environment Variables
+
+Set these in Netlify dashboard → Site settings → Environment variables:
+
+```
+VITE_RECAPTCHA_SITE_KEY=your_production_recaptcha_site_key
+VITE_RECAPTCHA_SECRET_KEY=your_production_recaptcha_secret_key
+```
+
+### Important Notes
+
+- **reCAPTCHA Keys:** Update your reCAPTCHA keys in Google Console to include your production domain
+- **EmailJS:** Ensure your EmailJS service is configured for production
+- **SSL:** Netlify provides automatic SSL certificates
+- **Custom Domain:** Update `sitemap.xml` and `robots.txt` with your actual domain
+
 ## 🎯 Features
 
 - **Modern Design**: Brutalist style with neon effects
