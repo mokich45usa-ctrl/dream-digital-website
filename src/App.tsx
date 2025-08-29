@@ -11,6 +11,7 @@ import { FinalCTASection } from './components/FinalCTASection';
 import { AdminPanel } from './components/AdminPanel';
 import { AnalyticsPanel } from './components/AnalyticsPanel';
 import { SEOTestPanel } from './components/SEOTestPanel';
+import { CookieBanner } from './components/CookieBanner';
 import { useAdminPanel } from './hooks/useAdminPanel';
 import { useAnalytics } from './hooks/useAnalytics';
 
@@ -45,6 +46,9 @@ export default function App() {
 
       {/* SEO тест панель */}
       <SEOTestPanel />
+      
+      {/* Cookie баннер */}
+      <CookieBanner />
       
       {/* Временный индикатор админ режима */}
       {isAdminMode && (
